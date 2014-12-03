@@ -43,7 +43,16 @@ import random
 
 
 class Island:
+    """
+    Island is an n x n grid where a zero value indicates an unoccupied space.
+    """
     def __init__(self, size):
+        """
+        Sets uo Island grid to appropriate size and fills with zeros
+
+        :param size: size of grid
+        :return: None
+        """
         self.grid = []
         self.size = size
         for i in range(size):
@@ -51,8 +60,12 @@ class Island:
             self.grid.append(row)
 
     def __str__(self):
+        """
+        String representation for printing. Note that (0,0) as is customary in cartesian geometry, will be in the lower
+        left position.
+        """
         grid_string = ""
-        for y in range(self.size):
+        for y in range(self.size-1,-1,-1):
             for x in range(self.size):
                 if not self.grid[x][y]:
                     grid_string += "  .  "
@@ -91,6 +104,11 @@ class Island:
         y = animal.y
         self.grid[x][y] = animal
 
+    def clear_moved(self):
+        for x in range(self.size):
+            for y in range(self.size):
+                if self.grid[x][y]:
+                    self.grid[x][y].moved = False
 
 class Animal:
     def __init__(self, island, x, y, breed_clock=0, move_clock=0, type="A"):
@@ -100,6 +118,8 @@ class Animal:
         self.breed_clock = breed_clock
         self.move_clock = move_clock
         self.type = type
+
+        self.moved = False
 
     def __str__(self):
         return self.type
@@ -111,15 +131,34 @@ class Animal:
         pass
 
     def move(self):
-        x = self.x + random.randint(-1, 1)
-        y = self.y + random.randint(-1, 1)
+        if not self.moved:
+            x = self.x + random.randint(-1, 1)
+            y = self.y + random.randint(-1, 1)
 
-        if 0 <= x < self.island.size and 0 <= y < self.island.size:
-            if not self.island.grid[x][y]:
-                self.island.grid[self.x][self.y] = 0
-                self.island.grid[x][y] = self
-                self.x = x
-                self.y = y
+            if 0 <= x < self.island.size and 0 <= y < self.island.size:
+                if not self.island.grid[x][y]:
+                    self.island.grid[self.x][self.y] = 0
+                    self.island.grid[x][y] = self
+                    self.x = x
+                    self.y = y
+
+            self.moved = True
+
+    def check_neighbours(self, type_wanted):
+        result = None
+
+        for i in range(8):
+            x = self.x + random.randint(-1, 1)
+            y = self.y + random.randint(-1, 1)
+
+            if 0 <= x < self.island.size and 0 <= y < self.island.size:
+                if type(self.island.grid[x][y] == type_wanted):
+                    result = (x,y)
+                    break
+                else:
+                    continue
+
+        return result
 
 
 class Predator(Animal):
