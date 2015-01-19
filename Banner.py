@@ -19,7 +19,7 @@
 import os
 
 import time
-
+#comment thrown in for git to observe changes I made
 #the width of the display
 #(the windows console is 79 characters wide).
 WIDTH = 79
