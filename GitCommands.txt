@@ -1,0 +1,43 @@
+git config -- global color.ui true(more colors )
+
+(makes new folder for repo)
+mkdir test
+cd test
+git init
+
+(diff&status logs)
+git status
+git diff
+git diff --staged
+git log
+
+(staging area)
+git add --all
+git add *.txt
+git add docs/
+git add "*.txt"
+
+git add newfile.txt
+git reset HEAD newfile.txt
+git commit -a -m "add newfile"
+git commit --amend -m "new comment"
+***
+git reset --soft HEAD^ of git reset --hard HEAD^***
+
+git remote add origin web address
+git remote -v
+
+git push -u origin master
+
+(clone remote repos)
+
+git clone address (download copy of remote)
+git fetch	(check for updates)
+git merge	(update your copy of the repo)
+git pull	(combination for git fetch & git  pull)
+
+( branches)
+
+git branch octopus (creates new branch)
+git checkout octopus (switch to branch octopus
+git checkout -b octopus
